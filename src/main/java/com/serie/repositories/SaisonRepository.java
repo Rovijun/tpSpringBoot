@@ -10,4 +10,6 @@ import java.util.List;
 public interface SaisonRepository extends CrudRepository<Saison, Long> {
     @Override
     List<Saison> findAll();
+
+    List<Saison> findBySerieId(Long serieId);
 }

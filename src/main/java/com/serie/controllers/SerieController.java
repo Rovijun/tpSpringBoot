@@ -1,6 +1,8 @@
 package com.serie.controllers;
 
+import com.serie.models.Saison;
 import com.serie.models.Serie;
+import com.serie.repositories.SaisonRepository;
 import com.serie.repositories.SerieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,15 +15,30 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping (value = "/api/series")
+@RequestMapping (value = "/series")
 public class SerieController {
 
     @Autowired
     private SerieRepository serieRepository;
 
+    @Autowired
+    private SaisonRepository saisonRepository;
+
     @GetMapping(value = "/")
     List<Serie> all() {
         return serieRepository.findAll();
+    }
+
+    @GetMapping(value = "/{serie}/saisons")
+    List<Saison> getSaisons(@PathVariable(name = "serie", required = true) Serie serie) {
+        if (serie == null){
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Serie introuvable"
+            );
+        }
+        else {
+            return saisonRepository.findBySerieId(serie.getId());
+        }
     }
 
     @GetMapping(value = "/{serie}")

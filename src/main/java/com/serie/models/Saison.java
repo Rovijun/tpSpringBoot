@@ -1,5 +1,7 @@
 package com.serie.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
@@ -15,6 +17,7 @@ public class Saison {
     private String nom;
 
     @ManyToOne
+    @JsonBackReference
     private Serie serie;
 
     public Long getId() {
